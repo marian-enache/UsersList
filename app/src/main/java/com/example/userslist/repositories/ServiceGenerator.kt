@@ -7,13 +7,8 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
 object ServiceGenerator {
-
-    @Inject
-    lateinit var retrofitClient: OkHttpClient
-
     private val TIMEOUT_SECONDS: Long = if (BuildConfig.DEBUG) 60 else 15
 
     fun <S> createService(serviceClass: Class<S>): S {
