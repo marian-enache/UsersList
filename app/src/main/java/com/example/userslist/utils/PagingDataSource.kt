@@ -8,7 +8,8 @@ import com.example.userslist.repositories.UsersRepository
 import io.reactivex.Single
 
 class PagingDataSource(
-    private val repository: UsersRepository
+    private val repository: UsersRepository,
+    private val errorHandler: ErrorHandler
 ) : RxPagingSource<Int, User>() {
 
     override fun getRefreshKey(state: PagingState<Int, User>): Int? {
@@ -24,7 +25,10 @@ class PagingDataSource(
 
         return repository.getUsersList(nextPageNumber)
             .map(this::toLoadResult)
-            .onErrorReturn { LoadResult.Error(it) }
+            .onErrorReturn {
+                errorHandler.handleError(it)
+                LoadResult.Error(it)
+            }
     }
 
     private fun toLoadResult(response: UsersResponse): LoadResult<Int, User> {

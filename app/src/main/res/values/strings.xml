@@ -6,4 +6,6 @@
 
 
     <string name="label_years_from">%d years from %s</string>
+    <string name="error_fetched_maximum_allowed_pages">Fetched maximum number of pages</string>
+    <string name="error_unknown">Something went wrong.\nPleas check your Internet connection</string>
 </resources>

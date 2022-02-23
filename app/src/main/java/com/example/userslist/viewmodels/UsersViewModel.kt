@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import com.example.userslist.global.Constants.RESULTS_COUNT
 import com.example.userslist.repositories.UsersRepository
+import com.example.userslist.utils.ErrorHandler
 import com.example.userslist.utils.PagingDataSource
 
 
@@ -13,9 +15,13 @@ class UsersViewModel(
     private val repository: UsersRepository
 ) : ViewModel() {
 
-    val users =
-        Pager(config = PagingConfig(pageSize = 20, prefetchDistance = 3),
-            pagingSourceFactory = { PagingDataSource(repository) })
+    companion object {
+        private const val PREFETCH_DISTANCE = 3
+    }
+
+    fun getUsers(errorHandler: ErrorHandler) =
+        Pager(config = PagingConfig(pageSize = RESULTS_COUNT, prefetchDistance = PREFETCH_DISTANCE),
+            pagingSourceFactory = { PagingDataSource(repository, errorHandler) })
             .flow.cachedIn(viewModelScope)
 
 }
