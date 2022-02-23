@@ -1,4 +1,4 @@
-package com.example.userslist
+package com.example.userslist.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -7,9 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.userslist.databinding.FragmentUsersBinding
 import com.example.userslist.global.ComponentsProvider
+import com.example.userslist.utils.UserComparator
 import com.example.userslist.viewmodels.UsersViewModel
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class UsersFragment : Fragment() {
@@ -31,6 +38,7 @@ class UsersFragment : Fragment() {
             .get(UsersViewModel::class.java)
 
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,10 +51,21 @@ class UsersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding?.rvUsers?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding?.rvUsers?.adapter = UsersAdapter(UserComparator)
+
+        lifecycleScope.launch() {
+            viewModel.users
+                .collectLatest { pagedData ->
+                    getRVAdapter()?.submitData(pagedData)
+                }
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
     }
+
+    private fun getRVAdapter() = binding?.rvUsers?.adapter as? UsersAdapter
 }

@@ -1,16 +1,10 @@
-package com.example.userslist
+package com.example.userslist.ui
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
-import android.view.MenuItem
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
+import com.example.userslist.R
 import com.example.userslist.databinding.ActivityMainBinding
 
 

@@ -1,6 +1,6 @@
 package com.example.userslist.domain
 
-data class UserModel(
+data class User(
     private val name: Name,
     private val nat: String,
     private val dob: Dob,

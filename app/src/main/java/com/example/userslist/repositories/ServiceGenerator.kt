@@ -5,6 +5,7 @@ import com.example.userslist.global.Constants
 import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
@@ -18,6 +19,7 @@ object ServiceGenerator {
     fun <S> createService(baseUrl: String, serviceClass: Class<S>): S {
         val retrofit: Retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(
                 OkHttpClient.Builder().apply {
